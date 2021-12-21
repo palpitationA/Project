@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  根节点configuration
+ scan="true",如果配置文件发生变化,则会重新加载
+ scanPeriod="30 seconds":检测配置文件是否被修改的时间间隔
+ debug="true":默认为false,如果为true代表可以实时查看logback运行的状态
+-->
+<configuration>
+
+    <!--
+        <appender>:日志追加器类的声明标签,必须配置name和class
+        常用appender主要有三个
+            1.ConsoleAppender:控制台日志追加器,需要配置的子节点有
+                <encoder>:把日志转换成字节数组,然后把字节数组写入到输出流
+                <target>:字符串值:默认是System.out,可以改为System.err
+            2.FileAppender:把之日写进文件
+                <file>:指定日志文件
+                <encoder>:...
+                <append>:默认为true,代表以追加的形式写入日志
+            3.RollingFileAppender:继承于FileAppender
+                <file>:指定日志文件
+                <encoder>:...
+                <append>:默认为true,代表以追加的形式写入日志
+                <rollingPolicy class="SizeAndTimeBasedRollingPolicy">:可以指定滚动策略
+                用的最多的滚动策略是SizeAndTimeBasedRollingPolicy,这种滚动策略可以基于日志文件大小以及时间自动重新生成日志文件
+     -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!--
+            %d{HH:mm:ss.SSS}/%date{HH:mm:ss.SSS}:指定日期格式,{}中的格式和SimpleDateFormat中的pattern是一样的
+            %thread/%t:产生当前日志的线程名
+            %-5level:
+               %level/%le/%p:输出当前日志的级别
+               -:代表左对齐
+               十进制数:代表最小宽度,多余的位置用空格;如果超出了,不会截断
+            %logger{length}/%lo{length}:输入是哪个类打印的日志
+            %msg/%message:日志详情信息
+            %n:与平台无关的换行符号
+         -->
+        <encoder>
+            <pattern>%d{HH:mm:ss} [%thread] %-4level %logger{20} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+<!--        <target>System.err</target>-->
+    </appender>
+
+
+
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
